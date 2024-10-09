@@ -1,9 +1,9 @@
+"use client"
 import React from 'react'
+import Chat from '@/components/modules/Chat';
 
 const page = () => {
-  return (
-    <div>page</div>
-  )
+  return (<Chat />)
 }
 
 export default page

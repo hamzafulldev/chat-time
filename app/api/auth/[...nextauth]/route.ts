@@ -14,8 +14,6 @@ export const authOptions = NextAuth({
         const password = credentials?.password;
 
         console.log("Authorize: Username and Password received", username, password);
-
-        // Return user object with userId
         return {
           id: "user1",
           name: "User Name",
@@ -27,13 +25,15 @@ export const authOptions = NextAuth({
   ],
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    jwt: async ({ user, token }) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    jwt: async ({ user, token }:any) => {
       if (user) {
         token.userId = user.userId;
       }
       return token;
     },
-    session: async ({ session, token }) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    session: async ({ session, token }:any) => {
       if (session.user) {
         session.user.id = token.sub;
         session.user.userId = token.userId;
@@ -41,8 +41,7 @@ export const authOptions = NextAuth({
       return session;
     },
     redirect: async ({ url, baseUrl }) => {
-      console.log("url",url, url.startsWith(baseUrl) ? url : `${baseUrl}/chat`)
-      return `${baseUrl}/chat`;
+      return url.startsWith(baseUrl) ? url : `${baseUrl}/chat`;
     },
   },
 });
